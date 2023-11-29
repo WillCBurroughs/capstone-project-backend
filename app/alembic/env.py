@@ -31,11 +31,12 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    user = os.getenv("POSTGRES_USER", "postgres")
-    password = os.getenv("POSTGRES_PASSWORD", "postgres")
-    server = os.getenv("POSTGRES_SERVER", "localhost:5432")
-    db = os.getenv("POSTGRES_DB", "postgres")
-    connection_string = f"postgresql://{user}:{password}@{server}/{db}"
+    user = os.getenv("DB_USER", "postgres")
+    password = os.getenv("DB_PASSWORD", "postgres")
+    server = os.getenv("DB_HOST", "localhost")
+    db = os.getenv("DB_NAME", "postgres")
+    port = os.getenv("DB_PORT", "5432")
+    connection_string = f"postgresql://{user}:{password}@{server}:{port}/{db}"
     if os.environ.get('DATABASE_URL'):
         connection_string = os.environ.get('DATABASE_URL')
     return connection_string
