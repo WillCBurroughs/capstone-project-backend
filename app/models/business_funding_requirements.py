@@ -14,10 +14,8 @@ class Business_Funding_Requirements(Base):
     requirement_id = Column(Integer, ForeignKey('requirement.id'))
 
     # Define relationships
-    business = relationship("Business")
-    requirement = relationship("Requirement")
-
-    relationship()
+    business = relationship("Business", back_populates="business_funding_requirements")
+    requirement = relationship("Requirement", back_populates="business_funding_requirements")
 
     def to_schema(self):
         return Business_Funding_RequirementsInDB(
