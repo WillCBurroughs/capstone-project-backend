@@ -1,31 +1,32 @@
 from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.orm import relationship
-from app.schemas import UserInDB
+from sqlalchemy.orm import relationship, Mapped
+from app.schemas import UserInDBBase
+from typing import List
 
 from app.db.base_class import Base
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
-    is_active = Column(Boolean(), default=True)
-    is_superuser = Column(Boolean(), default=False)
+    id: Mapped[int] = Column(Integer, primary_key=True, index=True)
+    username: Mapped[String] = Column(String, index=True)
+    email: Mapped[String] = Column(String, unique=True, index=True, nullable=False)
+    hashed_password: Mapped[String] = Column(String, nullable=False)
+    is_active: Mapped[Boolean] = Column(Boolean(), default=True)
+    is_superuser: Mapped[Boolean] = Column(Boolean(), default=False)
     
-    phone_number = Column(Integer, default=True)
-    age = Column(Integer, default=True)
-    is_student = Column(Boolean(), default=True)
-    university_name = Column(String, index=True)
+    phone_number: Mapped[String] = Column(String, default="270-427-6325")
+    age: Mapped[Integer] = Column(Integer, default= 20)
+    is_student: Mapped[Boolean] = Column(Boolean(), default=True)
+    university_name: Mapped[String] = Column(String, index=True)
 
-    gender = Column(String, index=True)
-    is_veteran = Column(String, index=True)
-    living_country = Column(String, index=True)
-    living_state = Column(String, index=True)
-    living_city = Column(String, index=True)
+    gender: Mapped[String] = Column(String, index= True)
+    is_veteran: Mapped[Boolean] = Column(Boolean, index=True)
+    living_country: Mapped[String] = Column(String, index=True)
+    living_state: Mapped[String] = Column(String, index=True)
+    living_city: Mapped[String] = Column(String, index=True)
 
-    relationship()
+    # funding_opportunities: relationship(Mapped[List["FundingOpportunity"]], foreign_keys="funding_opportunity.fund_host_id", back_populates="host")
 
     def to_schema(self):
         return UserInDB(

@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+# from pydantic import BaseModel
 
-class UserRoleBase(BaseModel):
-    id: int
-    title: str
+# class UserRoleBase(BaseModel):
+#     id: int
+#     title: str
 
-    class Config:
-        orm_mode = True
+#     class Config:
+#         orm_mode = True
 
-class UserRoleInDB(UserRoleBase):
-    pass
+# class UserRoleInDB(UserRoleBase):
+#     pass

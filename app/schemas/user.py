@@ -16,12 +16,12 @@ class UserInDBBase(UserBase):
     id: int
 
 class User(UserInDBBase):
-    phone_number: int
+    phone_number: str
     age: int
     is_student: bool
     university_name: str
     gender: str
-    is_veteran: str
+    is_veteran: bool
     living_country: str
     living_state: str
     living_city: str
