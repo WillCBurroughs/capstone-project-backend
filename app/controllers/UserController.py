@@ -47,6 +47,15 @@ class UserController(BaseController[User, UserCreate, UserUpdate]):
 
     def is_active(self, user: User) -> bool:
         return user.is_active
+    
+    def is_veteran(self, user: User) -> bool:
+        return user.is_veteran
+    
+    def is_student(self, user: User) -> bool:
+        return user.is_student
+
+    def get_university(self, user: User) -> str: 
+        return user.university_name
 
     def is_superuser(self, user: User) -> bool:
         return user.is_superuser

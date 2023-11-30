@@ -28,6 +28,7 @@ def read_users(
     return users
 
 
+
 @router.post("/", response_model=schemas.User)
 def create_user(
     *,
@@ -76,15 +77,54 @@ def update_user_me(
     return user
 
 
-@router.get("/me", response_model=schemas.User)
-def read_user_me(
-    db: Session = Depends(deps.get_db),
+
+@router.get("/{user_id}/is_veteran", response_model=bool)
+def is_veteran(
+    user_id: int,
     current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
+    db: Session = Depends(deps.get_db),
+) -> bool:
     """
-    Get current user.
+    Get the is_veteran status of a specific user by id.
     """
-    return current_user
+    user = controllers.user.get(db, id=user_id)
+    if user == current_user or controllers.user.is_superuser(current_user):
+        return user.is_veteran
+    raise HTTPException(
+        status_code=400, detail="The user doesn't have enough privileges"
+    )
+
+@router.get("/{user_id}/is_student", response_model=bool)
+def is_student(
+    user_id: int,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+) -> bool:
+    """
+    Get the is_veteran status of a specific user by id.
+    """
+    user = controllers.user.get(db, id=user_id)
+    if user == current_user or controllers.user.is_superuser(current_user):
+        return user.is_student
+    raise HTTPException(
+        status_code=400, detail="The user doesn't have enough privileges"
+    )
+
+# How to get university of a user
+@router.get("/{user_id}/get_university", response_model=schemas.User)
+def get_university(
+    user_id: int,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db),
+) -> bool:
+    """
+    Get the is_veteran status of a specific user by id.
+    """
+    user = controllers.user.get(db, id=user_id)
+    
+    return user.university_name
+
+
 
 
 @router.post("/open", response_model=schemas.User)
@@ -152,6 +192,8 @@ def update_user(
         )
     user = controllers.user.update(db, db_obj=user, obj_in=user_in)
     return user
+
+
 
 @router.post("/register")
 def register_user(*, db: Session = Depends(deps.get_db), 

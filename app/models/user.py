@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.orm import relationship, Mapped
-from app.schemas import UserInDBBase
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+from app.schemas import User
 from typing import List
 
 from app.db.base_class import Base
@@ -8,28 +8,28 @@ from app.db.base_class import Base
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = Column(Integer, primary_key=True, index=True)
-    username: Mapped[String] = Column(String, index=True)
-    email: Mapped[String] = Column(String, unique=True, index=True, nullable=False)
-    hashed_password: Mapped[String] = Column(String, nullable=False)
-    is_active: Mapped[Boolean] = Column(Boolean(), default=True)
-    is_superuser: Mapped[Boolean] = Column(Boolean(), default=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(String, index=True)
+    email: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
+    is_superuser: Mapped[bool] = mapped_column(Boolean(), default=False)
     
-    phone_number: Mapped[String] = Column(String, default="270-427-6325")
-    age: Mapped[Integer] = Column(Integer, default= 20)
-    is_student: Mapped[Boolean] = Column(Boolean(), default=True)
-    university_name: Mapped[String] = Column(String, index=True)
+    phone_number: Mapped[str] = mapped_column(String, default="270-427-6325")
+    age: Mapped[int] = mapped_column(Integer, default= 20)
+    is_student: Mapped[bool] = mapped_column(Boolean(), default=True)
+    university_name: Mapped[str] = mapped_column(String, index=True, default="")
 
-    gender: Mapped[String] = Column(String, index= True)
-    is_veteran: Mapped[Boolean] = Column(Boolean, index=True)
-    living_country: Mapped[String] = Column(String, index=True)
-    living_state: Mapped[String] = Column(String, index=True)
-    living_city: Mapped[String] = Column(String, index=True)
+    gender: Mapped[str] = mapped_column(String, index= True, default="")
+    is_veteran: Mapped[bool] = mapped_column(Boolean, index=True, default=False)
+    living_country: Mapped[str] = mapped_column(String, index=True, default="")
+    living_state: Mapped[str] = mapped_column(String, index=True, default="")
+    living_city: Mapped[str] = mapped_column(String, index=True, default="")
 
     # funding_opportunities: relationship(Mapped[List["FundingOpportunity"]], foreign_keys="funding_opportunity.fund_host_id", back_populates="host")
 
     def to_schema(self):
-        return UserInDB(
+        return User(
             id=self.id,
             username=self.username,
             email=self.email,
