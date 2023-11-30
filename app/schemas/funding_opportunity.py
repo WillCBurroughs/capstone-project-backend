@@ -8,10 +8,10 @@ class FundingOpportunityBase(BaseModel):
     fund_amount: Optional[float]
     equity_taken: Optional[bool]
     amount_equity_taken: Optional[float]
+    fund_host_id: int
 
 class FundingOpportunityInDBBase(FundingOpportunityBase):
     id: int
-    fund_host_id: int
 
 class UpdateFundingOpportunity(FundingOpportunityBase):
     fund_name: Optional[str]

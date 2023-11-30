@@ -3,14 +3,22 @@ from typing import Any, Dict, Optional, Union
 from sqlalchemy.orm import Session
 
 from app.controllers.BaseController import BaseController
-from app.models import FundingOpportunity as FundingOpportunityModel
-from app.schemas import UpdateFundingOpportunity, FundingOpportunitySchema, FundingOpportunityInDBBase
+from app.models import FundingOpportunity
+from app.schemas import FundingOpportunityBase, FundingOpportunitySchema, FundingOpportunityInDBBase
 
 
-class FundingOpportunityController(BaseController[FundingOpportunitySchema, FundingOpportunityInDBBase, UpdateFundingOpportunity]):
+class FundingOpportunityController(BaseController[FundingOpportunity, FundingOpportunityInDBBase, FundingOpportunityBase]):
     
-    def create(self, db: Session, obj_in: FundingOpportunitySchema) -> FundingOpportunitySchema:
-        db_obj = FundingOpportunitySchema(**obj_in)
+    def create(self, db: Session, obj_in: FundingOpportunityBase) -> FundingOpportunityInDBBase:
+        db_obj = FundingOpportunity(
+            fund_name=obj_in.fund_name,
+            fund_contact_email=obj_in.fund_contact_email,
+            fund_type=obj_in.fund_type,
+            fund_amount=obj_in.fund_amount,
+            equity_taken=obj_in.equity_taken,
+            amount_equity_taken=obj_in.amount_equity_taken,
+            fund_host_id=obj_in.fund_host_id
+        )
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -27,6 +35,3 @@ class FundingOpportunityController(BaseController[FundingOpportunitySchema, Fund
 
 
 funding_opportunity = FundingOpportunityController(FundingOpportunitySchema)
-
-
-

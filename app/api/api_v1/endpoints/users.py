@@ -110,7 +110,7 @@ def is_student(
         status_code=400, detail="The user doesn't have enough privileges"
     )
 
-# How to get university of a user
+# How to get university 
 @router.get("/{user_id}/get_university", response_model=schemas.User)
 def get_university(
     user_id: int,
