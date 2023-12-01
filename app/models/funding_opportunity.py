@@ -22,7 +22,7 @@ class FundingOpportunity(Base):
     # Define relationships
     #host: relationship(Mapped["User"], back_populates="funding_opportunities")
 
-    funding_opp_requirements: Mapped[List["FundingOppRequirement"]] = relationship(back_populates="funidngOpportunityBackPopulator")
+    funding_opp_requirements = relationship("FundingOppRequirement", back_populates="funding_opportunity")
 
     def to_schema(self):
         return FundingOpportunityBase(

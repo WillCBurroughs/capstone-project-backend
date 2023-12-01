@@ -15,4 +15,8 @@ class FundingOppRequirement(Base):
     # Used to define data to be parsed for testing if qualified 
     data = Column(String, index=True)
     
-    funidngOpportunityBackPopulator: Mapped[List["FundingOpportunity"]] = relationship(back_populates="funding_opp_requirements")
+    # funidngOpportunityBackPopulator: Mapped[List["FundingOpportunity"]] = relationship(back_populates="funding_opp_requirements")
+    # fundingRequirementBackPopulator: Mapped[List["FundingRequirement"]] = relationship(back_populates= "funding_opp_requirements")
+    
+    funding_opportunity = relationship("FundingOpportunity", back_populates="funding_opp_requirements")
+    funding_requirement = relationship("FundingRequirement", back_populates="funding_opp_requirements")

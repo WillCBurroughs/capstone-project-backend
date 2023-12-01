@@ -1,8 +1,9 @@
 from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, Date
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.schemas import FundingOpportunityInDBBase
-
+from typing import List
 from app.db.base_class import Base
+
 
 class FundingRequirement(Base):
     
@@ -13,6 +14,8 @@ class FundingRequirement(Base):
     data = Column(String, index = True)
 
     # Define relationships
+    funding_opp_requirements = relationship("FundingOppRequirement", back_populates="funding_requirements")
+
 
     def to_schema(self):
         return FundingOpportunityInDBBase(
