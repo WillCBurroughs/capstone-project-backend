@@ -5,4 +5,4 @@
 -- DROP TABLE "users";
 
 UPDATE users SET is_superuser = True
- WHERE users.id = 3;
+WHERE users.id = 3;

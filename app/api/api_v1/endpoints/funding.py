@@ -27,3 +27,29 @@ def create_funding_opportunity(
     # current_user = Depends(get_current_user)
     new_funding_opportunity = controllers.funding_opportunity.create(db, obj_in=fund_in)
     return new_funding_opportunity
+
+@router.get("/", response_model=List[schemas.FundingOpportunityBase])
+def read_competitions(
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+) -> Any: 
+    """
+    Get Pitch Comps.
+    """
+    competitions = controllers.funding_opportunity.get_multi(db, skip=skip, limit=limit)
+    return competitions
+
+
+# @router.get("/", response_model=List[schemas.User])
+# def read_users(
+#     db: Session = Depends(deps.get_db),
+#     skip: int = 0,
+#     limit: int = 100,
+#     current_user: models.User = Depends(deps.get_current_active_superuser),
+# ) -> Any:
+#     """
+#     Retrieve users.
+#     """
+#     users = controllers.user.get_multi(db, skip=skip, limit=limit)
+#     return users

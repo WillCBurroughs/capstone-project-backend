@@ -34,4 +34,4 @@ class FundingOpportunityController(BaseController[FundingOpportunity, FundingOpp
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 
 
-funding_opportunity = FundingOpportunityController(FundingOpportunitySchema)
+funding_opportunity = FundingOpportunityController(FundingOpportunity)

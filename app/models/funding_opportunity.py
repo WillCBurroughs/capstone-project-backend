@@ -1,8 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, Date, Float
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.schemas import FundingOpportunityBase
-from app.models.user import User
-
+from typing import List
 from app.db.base_class import Base
 
 class FundingOpportunity(Base):
@@ -22,6 +21,8 @@ class FundingOpportunity(Base):
 
     # Define relationships
     #host: relationship(Mapped["User"], back_populates="funding_opportunities")
+
+    funding_opp_requirements: Mapped[List["FundingOppRequirement"]] = relationship(back_populates="funidngOpportunityBackPopulator")
 
     def to_schema(self):
         return FundingOpportunityBase(
