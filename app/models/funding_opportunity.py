@@ -3,26 +3,23 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.schemas import FundingOpportunityBase
 from typing import List
 from app.db.base_class import Base
+from app.models.funding_opp_requirement import FundingOppRequirement
 
 class FundingOpportunity(Base):
-    
+   
     __tablename__ = "funding_opportunity"
     
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    fund_name: Mapped[str] = mapped_column(String, index = True)
-    fund_host_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
+    id = Column(Integer, primary_key=True, index=True)
+    fund_name = Column(String, index=True)
+    fund_host_id = Column(Integer, ForeignKey('users.id'))
+    fund_contact_email = Column(String, index=True)
+    fund_type = Column(String, index=True)
+    fund_amount = Column(Float, index=True)
+    equity_taken = Column(Boolean(), index=True)
+    amount_equity_taken = Column(Float, index=True)
+
+    funding_opp_requirements: Mapped[List["FundingOppRequirement"]] = relationship(back_populates="funidngOpportunityBackPopulator")
     
-    fund_contact_email: Mapped[str]= mapped_column(String, index = True)
-    fund_type: Mapped[str] = mapped_column(String, index = True)
-    fund_amount: Mapped[float] = mapped_column(Float, index = True)
-
-    equity_taken: Mapped[bool] = mapped_column(Boolean(), index = True)
-    amount_equity_taken: Mapped[float] = mapped_column(Float, index = True)
-
-    # Define relationships
-    #host: relationship(Mapped["User"], back_populates="funding_opportunities")
-
-    funding_opp_requirements = relationship("FundingOppRequirement", back_populates="funding_opportunity")
 
     def to_schema(self):
         return FundingOpportunityBase(
