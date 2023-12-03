@@ -17,7 +17,9 @@ def create_funding_opportunity(
 
     db: Session = Depends(deps.get_db),
     fund_in: schemas.FundingOpportunityBase,
-    current_user: models.User = Depends(deps.get_current_active_user),
+
+    # The following line does not applow people who are not authenticated to use a service
+    # current_user: models.User = Depends(deps.get_current_active_user),
 
 ) -> Any:
     """
