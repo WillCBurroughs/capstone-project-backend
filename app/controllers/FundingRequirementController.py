@@ -13,7 +13,6 @@ class FundingRequirementController(BaseController[FundingRequirement, FundingReq
         db_obj = FundingRequirement(
             title=obj_in.title,
             data=obj_in.data,
-            fund_type=obj_in.fund_type
         )
         db.add(db_obj)
         db.commit()

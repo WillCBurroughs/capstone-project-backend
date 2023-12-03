@@ -11,7 +11,7 @@ from app.api.api_v1.endpoints.login import test_token
 
 router = APIRouter()
 
-@router.post("/", response_model=schemas.FundingOpportunityBase)
+@router.post("/", response_model=schemas.FundingOpportunitySchema)
 def create_funding_opportunity(
     *,
 
@@ -28,7 +28,7 @@ def create_funding_opportunity(
     new_funding_opportunity = controllers.funding_opportunity.create(db, obj_in=fund_in)
     return new_funding_opportunity
 
-@router.get("/", response_model=List[schemas.FundingOpportunityBase])
+@router.get("/", response_model=List[schemas.FundingOpportunitySchema])
 def read_competitions(
     db: Session = Depends(deps.get_db),
     skip: int = 0,

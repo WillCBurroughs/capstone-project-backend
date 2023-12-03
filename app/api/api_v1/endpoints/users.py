@@ -125,8 +125,6 @@ def get_university(
     return user.university_name
 
 
-
-
 @router.post("/open", response_model=schemas.User)
 def create_user_open(
     *,
