@@ -27,6 +27,28 @@ def read_users(
     users = controllers.user.get_multi(db, skip=skip, limit=limit)
     return users
 
+@router.put("/me", response_model=schemas.User)
+def update_user_me(
+    *,
+    db: Session = Depends(deps.get_db),
+    password: str = Body(None),
+    email: EmailStr = Body(None),
+    username: EmailStr = Body(None),
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Update own user.
+    """
+    current_user_data = jsonable_encoder(current_user)
+    user_in = schemas.UserUpdate(**current_user_data)
+    if password is not None:
+        user_in.password = password
+    if email is not None:
+        user_in.email = email
+    if username is not None:
+        user_in.username = email
+    user = controllers.user.update(db, db_obj=current_user, obj_in=user_in)
+    return user
 
 
 @router.post("/", response_model=schemas.User)
@@ -53,7 +75,7 @@ def create_user(
     return new_user
 
 
-@router.put("/me", response_model=schemas.User)
+@router.get("/me", response_model=schemas.User)
 def update_user_me(
     *,
     db: Session = Depends(deps.get_db),
@@ -63,19 +85,33 @@ def update_user_me(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Update own user.
+    Create new user.
     """
-    current_user_data = jsonable_encoder(current_user)
-    user_in = schemas.UserUpdate(**current_user_data)
-    if password is not None:
-        user_in.password = password
-    if email is not None:
-        user_in.email = email
-    if username is not None:
-        user_in.username = email
-    user = controllers.user.update(db, db_obj=current_user, obj_in=user_in)
-    return user
+    new_user = controllers.user.get_by_email(db, email=current_user.email)
+    if new_user:
+        raise HTTPException(
+            status_code=400,
+            detail="The user with this username already exists in the system.",
+        )
+    new_user = controllers.user.create(db, obj_in=current_user)
+    if settings.EMAILS_ENABLED and current_user.email:
+        send_new_account_email(
+            email_to=current_user.email, username=current_user.email, password=current_user.password
+        )
+    return new_user
+    
+    
 
+@router.get("/user-id", response_model=int)
+def get_user_id(current_user: models.User = Depends(deps.get_current_user)) -> int:
+    """
+    Get user ID for the currently logged-in user.
+    """
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    print("This is correct")
+    return current_user.id
 
 
 @router.get("/{user_id}/is_veteran", response_model=bool)
