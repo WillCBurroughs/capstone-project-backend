@@ -13,7 +13,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
-    is_superuser: Mapped[bool] = mapped_column(Boolean(), default=False)
+    is_superuser: Mapped[bool] = mapped_column(Boolean(), default=True)
     
     phone_number: Mapped[str] = mapped_column(String, default="270-427-6325")
     age: Mapped[int] = mapped_column(Integer, default= 20)
