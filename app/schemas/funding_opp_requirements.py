@@ -14,7 +14,7 @@ class FundingOppRequirementInDBBase(FundingOppRequirementsBase):
 class UpdateFundingOpportunity(FundingOppRequirementsBase):
     data: Optional[str]
 
-class FundingOpportunitySchema(FundingOppRequirementInDBBase):
+class FundingOpportunityRequirementSchema(FundingOppRequirementInDBBase):
     class config:
 
         from_attributes = True

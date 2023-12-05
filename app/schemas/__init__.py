@@ -3,3 +3,4 @@ from .token import TokenSchema, TokenSchemaPayload
 from .user import User, UserCreate, UserInDBBase, UserUpdate, UserBase
 from .funding_opportunity import FundingOpportunityBase, FundingOpportunityInDBBase, UpdateFundingOpportunity, FundingOpportunitySchema
 from .funding_requirements import FundingRequirementsBase, FundingRequirementsInDB, UpdateFundingRequirements, FundingRequirementsSchema
+from .funding_opp_requirements import FundingOpportunityRequirementSchema, FundingOppRequirementsBase, FundingOppRequirementInDBBase, UpdateFundingOpportunity
