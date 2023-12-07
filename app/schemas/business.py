@@ -16,7 +16,7 @@
 #     business_age: Optional[date]
 
 #     class Config:
-#         orm_mode = True
+#         populate_by_name = True
 
 # class BusinessInDB(BusinessBase):
 #     pass

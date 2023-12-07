@@ -1,9 +1,11 @@
 from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, Date, Float
 from sqlalchemy.orm import relationship, Mapped, mapped_column
+#from app.models.funding_opp_requirement import FundingOppRequirement
 from app.schemas import FundingOpportunitySchema
 from typing import List
 from app.db.base_class import Base
-from app.models.funding_opp_requirement import FundingOppRequirement
+from app.schemas.user import User
+# from app.models.funding_opp_requirement import FundingOppRequirement
 
 class FundingOpportunity(Base):
    
@@ -18,8 +20,9 @@ class FundingOpportunity(Base):
     equity_taken: Mapped[bool] = mapped_column(Boolean(), index=True)
     amount_equity_taken: Mapped[float] = mapped_column(Float, index=True)
 
-    funding_opp_requirements: Mapped[List["FundingOppRequirement"]] = relationship(back_populates="funidngOpportunityBackPopulator")
+    requirements = relationship("FundingOppRequirement", back_populates="opportunity")
 
+    host = relationship("User", back_populates="opportunities")
 
     def to_schema(self):
         return FundingOpportunitySchema(

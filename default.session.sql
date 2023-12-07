@@ -4,5 +4,8 @@
 
 -- DROP TABLE "users";
 
-UPDATE users SET is_superuser = True
-WHERE users.id = 4;
+-- UPDATE users SET is_superuser = True
+-- WHERE users.id = 4;
+
+DELETE FROM funding_opportunity
+WHERE fund_name = 'string';

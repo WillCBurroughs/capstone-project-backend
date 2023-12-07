@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
+from app.models.funding_opportunity import FundingOpportunity
+from app.models.funding_requirement import FundingRequirement
 from app.schemas.funding_opp_requirements import FundingOpportunityRequirementSchema
 from typing import List
 
@@ -9,15 +11,16 @@ class FundingOppRequirement(Base):
 
     __tablename__ = "funding_opp_requirements"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement= True)
-    fund_id = Column(Integer, ForeignKey('funding_opportunity.id'))
-    requirement_id = Column(Integer, ForeignKey('funding_requirements.id'))
+    id: Mapped[int] = Column(Integer, primary_key=True, index=True, autoincrement= True)
+    fund_id: Mapped[int] = Column(Integer, ForeignKey('funding_opportunity.id'))
+    requirement_id: Mapped[int] = Column(Integer, ForeignKey('funding_requirements.id'))
 
     # Used to define data to be parsed for testing if qualified 
-    data = Column(String, index=True)
+    data: Mapped[str] = Column(String, index=True)
 
-    funidngOpportunityBackPopulator: Mapped[List["FundingOpportunity"]] = relationship(back_populates="funding_opp_requirements")
-    fundingRequirementBackPopulator: Mapped[List["FundingRequirement"]] = relationship(back_populates="funding_requirements_opp")
+    opportunity = relationship("FundingOpportunity", back_populates="requirements")
+    requirement = relationship("FundingRequirement", back_populates="opportunities")
+    #fundingRequirementBackPopulator: Mapped[List["FundingRequirement"]] = relationship(back_populates="funding_requirements_opp")
     
     def to_schema(self):
             return FundingOpportunityRequirementSchema(

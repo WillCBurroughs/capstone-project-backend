@@ -1,5 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
+#from app.models.funding_opportunity import FundingOpportunity
 from app.schemas import User
 from typing import List
 
@@ -26,7 +27,7 @@ class User(Base):
     living_state: Mapped[str] = mapped_column(String, index=True, default="")
     living_city: Mapped[str] = mapped_column(String, index=True, default="")
 
-    # funding_opportunities: relationship(Mapped[List["FundingOpportunity"]], foreign_keys="funding_opportunity.fund_host_id", back_populates="host")
+    opportunities = relationship("FundingOpportunity", back_populates="host")
 
     def to_schema(self):
         return User(

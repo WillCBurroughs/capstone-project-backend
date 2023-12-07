@@ -1,5 +1,9 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
+from app.schemas.funding_opp_requirements import FundingOpportunityRequirementSchema
+
+from app.schemas.user import User
+# from app.models import User
 
 class FundingOpportunityBase(BaseModel):
     fund_name: str
@@ -23,7 +27,11 @@ class UpdateFundingOpportunity(FundingOpportunityBase):
 
 class FundingOpportunitySchema(FundingOpportunityInDBBase):
 
+    host: User
+
+    requirements: List["FundingOpportunityRequirementSchema"]
+
     class Config:
         from_attributes = True
 
-        allow_population_by_field_name = True
+        populate_by_name = True

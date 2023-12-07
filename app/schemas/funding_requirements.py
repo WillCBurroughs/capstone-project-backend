@@ -6,7 +6,7 @@ class FundingRequirementsBase(BaseModel):
      data: str
 
      class Config:
-         orm_mode = True
+         populate_by_name = True
 
 class FundingRequirementsInDB(FundingRequirementsBase):
     id: int
@@ -19,5 +19,5 @@ class FundingRequirementsSchema(FundingRequirementsInDB):
     class Config: 
         from_attributes = True
 
-        allow_population_by_field_name = True
+        populate_by_name = True
 

@@ -7,7 +7,7 @@
 #     data: str
 
 #     class Config:
-#         orm_mode = True
+#         populate_by_name = True
 
 # class FundingOpportunityInDB(FundingOpportunityBase):
 #     pass

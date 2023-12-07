@@ -7,7 +7,7 @@
 #     role_id: int
 
 #     class Config:
-#         orm_mode = True
+#         populate_by_name = True
 
 # class UserOpportunityRoleInDB(UserOpportunityRoleBase):
 #     pass
