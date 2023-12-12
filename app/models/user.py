@@ -22,7 +22,7 @@ class User(Base):
     university_name: Mapped[str] = mapped_column(String, index=True, default="")
 
     gender: Mapped[str] = mapped_column(String, index= True, default="")
-    is_veteran: Mapped[bool] = mapped_column(Boolean, index=True, default=False)
+    is_veteran: Mapped[str] = mapped_column(String, index=True, default="is_veteran")
     living_country: Mapped[str] = mapped_column(String, index=True, default="")
     living_state: Mapped[str] = mapped_column(String, index=True, default="")
     living_city: Mapped[str] = mapped_column(String, index=True, default="")
@@ -42,8 +42,8 @@ class User(Base):
             is_student = self.is_student,
             university_name = self.university_name,
             gender = self.gender,
-            is_veteran = self.is_veteran,
             living_country = self.living_country,
             living_state = self.living_state,
-            living_city = self.living_city
+            living_city = self.living_city,
+            is_veteran = self.is_veteran
         )

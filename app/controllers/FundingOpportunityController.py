@@ -39,29 +39,15 @@ class FundingOpportunityController(BaseController[FundingOpportunity, FundingOpp
         results = db.query(FundingOpportunity)\
             .join(FundingOppRequirement, FundingOppRequirement.fund_id == FundingOpportunity.id)\
             .where(FundingOpportunity.id == funding_opp_id).all()
-        # funding_opps = {}
-        # for result in results:
-  
-        #     funding_opp_requirements = (
-        #         db.query(FundingOppRequirement)
-        #         .where(FundingOppRequirement.fund_id == result.id)
-        #         .all()
-        #     )
-        #     funding_host = (
-        #         db.query(User)
-        #         .where(User.id == result.fund_host_id)
-        #         .all()
-        #     )
-        #     fo = {
-        #         "funding_host":funding_host,
-        #         "funding_requirements":funding_opp_requirements,
-        #         "funding_opp":result
-        #     }
+        return results
+    
+    def getAllFOwithReqs(
+       self, db: Session, *, skip: int = 0, limit: int = 100
+    ) -> Any:
 
-        #     funding_opps[result.id] = fo
+        results = db.query(FundingOpportunity)\
+            .join(FundingOppRequirement, FundingOppRequirement.fund_id == FundingOpportunity.id).all()
 
-        # fos = list(funding_opps.values())
-        # print(fos)
         return results
 
 funding_opportunity = FundingOpportunityController(FundingOpportunity)

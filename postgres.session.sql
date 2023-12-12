@@ -1,3 +1,10 @@
-DELETE FROM funding_opportunity
-WHERE fund_name = '' OR fund_name = '';
+-- UPDATE users
+-- SET is_veteran = 'is_veteran'
+-- WHERE is_veteran IS NULL;
 
+
+
+
+
+-- UPDATE users SET is_superuser = True
+-- WHERE users.id = 4;

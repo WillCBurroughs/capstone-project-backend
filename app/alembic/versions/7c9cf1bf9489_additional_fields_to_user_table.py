@@ -40,7 +40,7 @@ def upgrade() -> None:
     sa.Column('is_student', sa.Boolean(), nullable=False),
     sa.Column('university_name', sa.String(), nullable=False),
     sa.Column('gender', sa.String(), nullable=False),
-    sa.Column('is_veteran', sa.Boolean(), nullable=False),
+    sa.Column('is_veteran', sa.String(), nullable=False),
     sa.Column('living_country', sa.String(), nullable=False),
     sa.Column('living_state', sa.String(), nullable=False),
     sa.Column('living_city', sa.String(), nullable=False),

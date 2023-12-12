@@ -1,6 +1,6 @@
 from typing import Any, List, Annotated
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Form
+from fastapi import APIRouter, Body, Depends, HTTPException, Form, status
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.utils import send_new_account_email
 from datetime import timedelta
 from app.core import security
+
 
 router = APIRouter()
 
@@ -191,19 +192,13 @@ def create_user_open(
 @router.get("/{user_id}", response_model=schemas.User)
 def read_user_by_id(
     user_id: int,
-    current_user: models.User = Depends(deps.get_current_active_user),
     db: Session = Depends(deps.get_db),
 ) -> Any:
     """
     Get a specific user by id.
     """
     user = controllers.user.get(db, id=user_id)
-    if user == current_user:
-        return user
-    if not controllers.user.is_superuser(current_user):
-        raise HTTPException(
-            status_code=400, detail="The user doesn't have enough privileges"
-        )
+
     return user
 
 
@@ -213,7 +208,6 @@ def update_user(
     db: Session = Depends(deps.get_db),
     user_id: int,
     user_in: schemas.UserUpdate,
-    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Update a user.
@@ -226,6 +220,28 @@ def update_user(
         )
     user = controllers.user.update(db, db_obj=user, obj_in=user_in)
     return user
+
+@router.put("column/{user_id}", response_model=schemas.User)
+def update_user_attr(
+    user_id: int,
+    column_name: str,  
+    column_value: Any,  
+    db: Session = Depends(deps.get_db),
+) -> Any:
+    existing_user_id = controllers.user.get(db, id=user_id)
+    if existing_user_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Food Log with id {user_id} not found",
+        )
+
+    
+    setattr(existing_user_id, column_name, column_value)
+
+    db.commit()
+    db.refresh(existing_user_id)
+
+    return existing_user_id
 
 
 

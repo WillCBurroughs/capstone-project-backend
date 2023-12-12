@@ -40,6 +40,29 @@ def read_funding_requirement_opportunities(
     funding_opportunity_requirement_list = controllers.funding_opportunity_Requirement.get_multi(db, skip=skip, limit=limit)
     return funding_opportunity_requirement_list
 
+@router.delete("/{fund_id}", response_model=schemas.FundingOpportunityRequirementSchema)
+def delete_funding_opp_req(
+    fund_id: int,
+    db: Session = Depends(deps.get_db)
+) -> Any: 
+    result = controllers.funding_opportunity_Requirement.remove(db, id = fund_id)
+    return result
+
+
+
+# @router.delete("/{fund_id}", response_model=schemas.FundingOpportunitySchema)
+# def delete_fund(
+#     fund_id: int,
+#     db: Session = Depends(deps.get_db)
+# ) -> Any:
+#     result = controllers.funding_opportunity.remove(db, id = fund_id)
+#     if not result:
+#         raise HTTPException(
+#             status_code = status.HTTP_404_NOT_FOUND,
+#             detail = f"Fund with id: {fund_id} not found"
+#         )
+#     return result
+
 # @router.get("/", response_model=List[schemas.FundingOpportunitySchema])
 # def read_competitions(
 #     db: Session = Depends(deps.get_db),

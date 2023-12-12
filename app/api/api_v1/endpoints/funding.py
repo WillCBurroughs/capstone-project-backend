@@ -66,6 +66,14 @@ def getFOs (
     fos = controllers.funding_opportunity.getFOwithReqs(db, skip=0, limit=100, funding_opp_id=int(funding_opp_id))
     return fos
 
+@router.get("/all", response_model=List[schemas.FundingOpportunitySchema])
+def getAllFOwithReqs (
+    db: Session = Depends(deps.get_db)
+) -> Any:
+    
+    fos = controllers.funding_opportunity.getAllFOwithReqs(db, skip = 0, limit=100)
+    return fos
+
 @router.delete("/{fund_id}", response_model=schemas.FundingOpportunitySchema)
 def delete_fund(
     fund_id: int,
@@ -78,6 +86,8 @@ def delete_fund(
             detail = f"Fund with id: {fund_id} not found"
         )
     return result
+
+
 
 # @router.get("/", response_model=List[schemas.User])
 # def read_users(
