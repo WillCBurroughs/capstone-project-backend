@@ -15,7 +15,7 @@
                 "ms-python.python",
                 "mtxr.sqltools",
                 "mtxr.sqltools-driver-pg",
-		"rangav.vscode-thunder-client"
+		        "rangav.vscode-thunder-client"
             ]
         }
     }
